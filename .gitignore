@@ -1,0 +1,7 @@
+### IntellJ IDEA ###
+dynamic_proxy/.idea
+dynamic_proxy/*.iml
+
+### build out ###
+dynamic_proxy/out/
+
