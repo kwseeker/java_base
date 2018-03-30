@@ -21,6 +21,13 @@ public class Main {
 
     public static void main(String[] args) {
 
+        /*=使用重入读写锁ReentrantReadWriteLock=================================*/
+        ReentrantReadWriteLockTest service = new ReentrantReadWriteLockTest();
+        ReentrantReadWriteLockTest.MyThread myThread1 = new ReentrantReadWriteLockTest.MyThread(service, "read");
+        ReentrantReadWriteLockTest.MyThread myThread2 = new ReentrantReadWriteLockTest.MyThread(service, "write");
+        myThread1.start();
+        myThread2.start();
+
         /*=使用重入锁ReentrantLock=============================================*/
 //        ReentrantLockTest service = new ReentrantLockTest();
 //        ReentrantLockTest.MyThread thread1 = new ReentrantLockTest.MyThread(service);
@@ -43,25 +50,25 @@ public class Main {
         /**
          * 公平锁与非公平锁
          */
-        final FairAndNoFairLock fairAndNoFairLock = new FairAndNoFairLock(false);
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                System.out.println("线程" + Thread.currentThread().getName() + "运行了");
-//                fairAndNoFairLock.serviceMethod();
-//            }
+//        final FairAndNoFairLock fairAndNoFairLock = new FairAndNoFairLock(false);
+////        Runnable runnable = new Runnable() {
+////            @Override
+////            public void run() {
+////                System.out.println("线程" + Thread.currentThread().getName() + "运行了");
+////                fairAndNoFairLock.serviceMethod();
+////            }
+////        };
+//        Runnable runnable = () -> {
+//            System.out.println("线程" + Thread.currentThread().getName() + "运行了");
+//            fairAndNoFairLock.serviceMethod();
 //        };
-        Runnable runnable = () -> {
-            System.out.println("线程" + Thread.currentThread().getName() + "运行了");
-            fairAndNoFairLock.serviceMethod();
-        };
-        Thread[] threadArray = new Thread[10];
-        for (int i = 0; i < 10; i++) {
-            threadArray[i] = new Thread(runnable);
-        }
-        for (int i = 0; i < 10; i++) {
-            threadArray[i].start();
-        }
+//        Thread[] threadArray = new Thread[10];
+//        for (int i = 0; i < 10; i++) {
+//            threadArray[i] = new Thread(runnable);
+//        }
+//        for (int i = 0; i < 10; i++) {
+//            threadArray[i].start();
+//        }
 
         /*=使用定时器Timer====================================================*/
 //        TimerTest.MyTask myTask = new TimerTest.MyTask();
