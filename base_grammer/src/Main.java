@@ -3,6 +3,7 @@ import multi_threads_communication.PipeStream;
 import multi_threads_communication.WaitNotifyThread1;
 import multi_threads_communication.WaitNotifyThread2;
 import super_class.SuperClassTest;
+import use_callback.AppClient;
 import use_clone.Professor;
 import use_clone.InstructorDeepClone;
 import use_clone.Student;
@@ -29,6 +30,14 @@ import java.math.BigInteger;
 public class Main {
 
     public static void main(String[] args) {
+
+        /*=回调函数的意义与使用==================================================*/
+        AppClient.AppClientOne appClientOne = new AppClient.AppClientOne();
+        AppClient.AppClientTwo appClientTwo = new AppClient.AppClientTwo();
+        AppClient.AppClientThree appClientThree = new AppClient.AppClientThree();
+        appClientOne.appRun();
+        appClientTwo.appRun();
+        appClientThree.appRun();
 
         /*=使用重入读写锁ReentrantReadWriteLock=================================*/
 //        ReentrantReadWriteLockTest service = new ReentrantReadWriteLockTest();
