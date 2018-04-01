@@ -8,5 +8,6 @@ package use_callback;
  * 渲染什么颜色交由前端自己实现。
  */
 public interface CallBackInterface {
-    void execute();
+    String getColor();
+    void execute(String color);
 }

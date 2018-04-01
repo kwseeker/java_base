@@ -32,9 +32,9 @@ public class Main {
     public static void main(String[] args) {
 
         /*=回调函数的意义与使用==================================================*/
-        AppClient.AppClientOne appClientOne = new AppClient.AppClientOne();
-        AppClient.AppClientTwo appClientTwo = new AppClient.AppClientTwo();
-        AppClient.AppClientThree appClientThree = new AppClient.AppClientThree();
+        AppClient.AppClientOne appClientOne = new AppClient.AppClientOne("红色");
+        AppClient.AppClientOne appClientTwo = new AppClient.AppClientOne("绿色");
+        AppClient.AppClientOne appClientThree = new AppClient.AppClientOne("蓝色");
         appClientOne.appRun();
         appClientTwo.appRun();
         appClientThree.appRun();
