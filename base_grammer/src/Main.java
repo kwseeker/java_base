@@ -8,6 +8,13 @@ import use_clone.InstructorDeepClone;
 import use_clone.Student;
 import use_multi_thread.*;
 import use_timer.TimerTest;
+import access_right.MultiClass;
+import access_right.Test;
+import break_multi_circle.BreakMultiCircle;
+import types_can_use_switch.TypesCanUseSwitch;
+import use_enum.enum2.Color;
+import use_enum.enum3.Meal;
+import use_enum.enum4.LightTest;
 
 import java.io.IOException;
 import java.io.PipedInputStream;
@@ -17,16 +24,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 
+import java.math.BigInteger;
+
 public class Main {
 
     public static void main(String[] args) {
 
         /*=使用重入读写锁ReentrantReadWriteLock=================================*/
-        ReentrantReadWriteLockTest service = new ReentrantReadWriteLockTest();
-        ReentrantReadWriteLockTest.MyThread myThread1 = new ReentrantReadWriteLockTest.MyThread(service, "read");
-        ReentrantReadWriteLockTest.MyThread myThread2 = new ReentrantReadWriteLockTest.MyThread(service, "write");
-        myThread1.start();
-        myThread2.start();
+//        ReentrantReadWriteLockTest service = new ReentrantReadWriteLockTest();
+//        ReentrantReadWriteLockTest.MyThread myThread1 = new ReentrantReadWriteLockTest.MyThread(service, "read");
+//        ReentrantReadWriteLockTest.MyThread myThread2 = new ReentrantReadWriteLockTest.MyThread(service, "write");
+//        myThread1.start();
+//        myThread2.start();
 
         /*=使用重入锁ReentrantLock=============================================*/
 //        ReentrantLockTest service = new ReentrantLockTest();
@@ -131,7 +140,7 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-        /*==================================================================*/
+        /*=使用枚举use_enum=================================================*/
 //        for (int i = 0; i < 1; i++) {
 //            for (Meal meal : Meal.values()) {   // values方法是枚举的所有值的集合
 //                Meal.Food food = meal.randomSelection();
@@ -147,7 +156,7 @@ public class Main {
 //        System.out.println("演示EnumSet对象的使用和遍历 >>>>>>>");
 //        LightTest.testEnumSet();
 
-        /*==================================================================*/
+        /*=对象克隆==========================================================*/
 //        Professor p1 = new Professor();
 //        p1.setName("Professor Zhang");
 //        p1.setAge(30);
@@ -180,15 +189,15 @@ public class Main {
 //            e.printStackTrace();
 //        }
 
-        /*==================================================================*/
+        /*=获取父类名字========================================================*/
 //        new SuperClassTest().test();
 
-        /*==================================================================*/
+        /*=String类型操作原理==================================================*/
 //        String s = "Hello";
 //        s += " world!";     //每次+操作都创建了一个StringBuffer类的可变实例
 //        System.out.println(s);
 
-        /*=使用多线程=========================================================*/
+        /*=使用多线程==========================================================*/
 //        System.out.println("当前线程名: " + Thread.currentThread().getName());
 //
 //        MyThread myThread = new MyThread();
@@ -247,7 +256,19 @@ public class Main {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
+        
+        /*=access_right=====================================================*/
+//        System.out.println("getBString: ");
+//        new MultiClass().getStrings();
+//        new Test().getStrings();
 
+        /*=break_multi_circle===============================================*/
+//        new BreakMultiCircle().testBreakMultiCircle();
+
+        /*=types_can_use_switch=============================================*/
+//        new TypesCanUseSwitch().TestTypesCanUseSwitch();
+
+        /*=多线程===========================================================*/
 //        ThreadLocalTest.ThreadA threadA = new ThreadLocalTest.ThreadA();
 //        ThreadLocalTest.ThreadB threadB = new ThreadLocalTest.ThreadB();
 //        threadA.start();
