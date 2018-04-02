@@ -3,7 +3,10 @@ dynamic_proxy/.idea
 dynamic_proxy/*.iml
 base_grammer/.idea
 base_grammer/*.iml
+socket_proj/.idea
+socket_proj/*.iml
 
 ### build out ###
 dynamic_proxy/out/
 base_grammer/out/
+socket_proj/out/

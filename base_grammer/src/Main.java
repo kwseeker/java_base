@@ -8,6 +8,7 @@ import use_clone.Professor;
 import use_clone.InstructorDeepClone;
 import use_clone.Student;
 import use_multi_thread.*;
+import use_multi_thread2.CallableThread;
 import use_timer.TimerTest;
 import access_right.MultiClass;
 import access_right.Test;
@@ -22,22 +23,56 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
-
 import java.math.BigInteger;
+import java.util.concurrent.*;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        /*=Callable FutureTask实现线程=========================================*/
+//        CallableThread callableThread = new CallableThread();
+//        FutureTask<Integer> futureTask = new FutureTask<>(callableThread);
+//        System.out.println("Current thread: " + Thread.currentThread().getName());
+//        new Thread(futureTask, "有返回值的线程").start();
+//
+//        try {
+//            System.out.println("子线程返回值： " + futureTask.get());  //这里是阻塞获取返回值
+//        } catch (InterruptedException | ExecutionException e) {
+//            e.printStackTrace();
+//        }
+//
+//        /**
+//         * 使用线程池
+//         */
+//        try {
+//            int taskSize = 5;
+//            ExecutorService pool = Executors.newFixedThreadPool(taskSize);
+//            List<Future> list = new ArrayList<>();
+//            for (int i = 0; i < taskSize; i++) {
+//                Callable<Integer> callable = new CallableThread();
+//                Future future = pool.submit(callable);
+//                list.add(future);
+//            }
+//            pool.shutdown();       //等待所有线程执行完毕才会关闭
+//            for (Future future : list) {
+//                System.out.println("任务返回值： " + future.get());
+//            }
+//        } catch (InterruptedException | ExecutionException e) {
+//            e.printStackTrace();
+//        }
+
         /*=回调函数的意义与使用==================================================*/
-        AppClient.AppClientOne appClientOne = new AppClient.AppClientOne("红色");
-        AppClient.AppClientOne appClientTwo = new AppClient.AppClientOne("绿色");
-        AppClient.AppClientOne appClientThree = new AppClient.AppClientOne("蓝色");
-        appClientOne.appRun();
-        appClientTwo.appRun();
-        appClientThree.appRun();
+//        AppClient.AppClientOne appClientOne = new AppClient.AppClientOne("红色");
+//        AppClient.AppClientOne appClientTwo = new AppClient.AppClientOne("绿色");
+//        AppClient.AppClientOne appClientThree = new AppClient.AppClientOne("蓝色");
+//        appClientOne.appRun();
+//        appClientTwo.appRun();
+//        appClientThree.appRun();
 
         /*=使用重入读写锁ReentrantReadWriteLock=================================*/
 //        ReentrantReadWriteLockTest service = new ReentrantReadWriteLockTest();
