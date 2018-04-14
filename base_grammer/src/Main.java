@@ -1,3 +1,5 @@
+import Serializable_uid.Person;
+import Serializable_uid.WhySerialversionUID;
 import multi_threads_communication.NotifyOneOrAll;
 import multi_threads_communication.PipeStream;
 import multi_threads_communication.WaitNotifyThread1;
@@ -30,9 +32,41 @@ import java.util.Timer;
 import java.math.BigInteger;
 import java.util.concurrent.*;
 
+import static Serializable_uid.WhySerialversionUID.getObjectFromFile;
+import static Serializable_uid.WhySerialversionUID.objectToFile;
+
 public class Main {
 
     public static void main(String[] args) {
+        /*=Callable FutureTask实现线程=========================================*/
+        String fileName = "crab_file";//文件名
+
+        // 这里是把对象序列化到文件
+        Person crab = new Person();
+        crab.setName("Mr.Crab");
+
+        try {
+            if (1 == args.length) {
+                switch (args[0]) {
+                    case "serial":
+                        //储存到文件中
+                        WhySerialversionUID.objectToFile(crab, fileName);
+                        break;
+                    case "back":
+                        // 这里是把对象序列化到文件
+                        Person crabBack = (Person) WhySerialversionUID.getObjectFromFile(fileName);
+                        System.out.println("Hi, My name is " + crabBack.getName());
+                        break;
+                    default:
+                        System.out.println("input error");
+                }
+            } else {
+                System.out.println("please input one param");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         /*=Callable FutureTask实现线程=========================================*/
 //        CallableThread callableThread = new CallableThread();
