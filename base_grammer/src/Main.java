@@ -4,7 +4,12 @@ import multi_threads_communication.NotifyOneOrAll;
 import multi_threads_communication.PipeStream;
 import multi_threads_communication.WaitNotifyThread1;
 import multi_threads_communication.WaitNotifyThread2;
+import super_class.Son;
 import super_class.SuperClassTest;
+import useAnotation.NameScannerTest;
+import useAnotation.ReflectProcessor;
+import useAnotation.ReflectTest;
+import useClass.ClassTest;
 import use_callback.AppClient;
 import use_clone.Professor;
 import use_clone.InstructorDeepClone;
@@ -37,36 +42,114 @@ import static Serializable_uid.WhySerialversionUID.objectToFile;
 
 public class Main {
 
-    public static void main(String[] args) {
+//    static class MyObject{
+//        String a;
+//
+//        MyObject(String str) {
+//            a = str;
+//        }
+//
+//        public void setString(String str){
+//            a = str;
+//        }
+//
+//        public String myString() {
+//            return a;
+//        }
+//    }
+
+    public static void main(String[] args) throws Exception {
+        /*=Class类的使用=====================================================*/
+        // 获取类ClassTest的Class对象的三种方法
+        Class c1 = Class.forName("useClass.ClassTest"); //forName()方法自带类加载
+        ClassTest classTest0 = new ClassTest();
+        Class c2 = classTest0.getClass();
+        Class c3 = ClassTest.class;
+
+        //上面三种方法获得的是同一个Class对象实例
+        System.out.println("三种方法获取的实例是否为同一个：" + ((c1==c2)&&(c2==c3)?"true":"false"));
+
+        System.out.println("ClassTest的基本信息：");
+        System.out.print(c1.toString() + "\n"
+            + c1.toGenericString() + "\n"
+            + c1.getName() + "\n"
+            + c1.getClassLoader().toString() + "\n"     // 在Java WEB项目编程时，往往通过classLoader获取Jar包的物理路径
+        );
+
+        //初始化
+        ClassTest classTest = (ClassTest) c1.newInstance(); //newInstance()无参，只能调用类的无参构造函数
+        classTest.setUsername("Lee");
+        classTest.setId("0315");
+        System.out.println(classTest.toString() + "\n"
+            + "isInstance: " + (c1.isInstance(classTest)?"true":"false") + "\n"
+            + "isInterface: " + (c1.isInterface()?"ture":"false") + "\n"
+            + "isPrimitive: " + (c1.isPrimitive()?"ture":"false") + "\n"
+        );
+
+
+        /*=useAnotation 使用自定义的注解======================================*/
+//        final ReflectProcessor reflectProcessor = new ReflectProcessor();
+//        reflectProcessor.parseMethod(ReflectTest.class);
+//
+//        new NameScannerTest();
+
+        /*=super()的意义======================================================*/
+//        new Son();
+//        new Son(30);
+
+        // Result:
+        /*
+        Father class is initial
+        Son class is initial
+        Father class is initial with 30
+        Son class is initial
+        */
+
+        /*=引用调用============================================================*/
+//        int a = 1;
+//        int b = a;
+//        b = 2;
+//
+//        String astr = "abc";
+//        String bstr = astr;
+//        bstr = "def";
+//
+//        MyObject aObj = new Main.MyObject("abcd");
+//        MyObject bObj = aObj;
+//        bObj.setString("efgh");
+//
+//        System.out.println("a="+a+" b="+b);
+//        System.out.println("astr="+astr+" bstr="+bstr);
+//        System.out.println("aobj="+aObj.myString()+" bstr="+bObj.myString());
+
         /*=Callable FutureTask实现线程=========================================*/
-        String fileName = "crab_file";//文件名
-
-        // 这里是把对象序列化到文件
-        Person crab = new Person();
-        crab.setName("Mr.Crab");
-
-        try {
-            if (1 == args.length) {
-                switch (args[0]) {
-                    case "serial":
-                        //储存到文件中
-                        WhySerialversionUID.objectToFile(crab, fileName);
-                        break;
-                    case "back":
-                        // 这里是把对象序列化到文件
-                        Person crabBack = (Person) WhySerialversionUID.getObjectFromFile(fileName);
-                        System.out.println("Hi, My name is " + crabBack.getName());
-                        break;
-                    default:
-                        System.out.println("input error");
-                }
-            } else {
-                System.out.println("please input one param");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+//        String fileName = "crab_file";//文件名
+//
+//        // 这里是把对象序列化到文件
+//        Person crab = new Person();
+//        crab.setName("Mr.Crab");
+//
+//        try {
+//            if (1 == args.length) {
+//                switch (args[0]) {
+//                    case "serial":
+//                        //储存到文件中
+//                        WhySerialversionUID.objectToFile(crab, fileName);
+//                        break;
+//                    case "back":
+//                        // 这里是把对象序列化到文件
+//                        Person crabBack = (Person) WhySerialversionUID.getObjectFromFile(fileName);
+//                        System.out.println("Hi, My name is " + crabBack.getName());
+//                        break;
+//                    default:
+//                        System.out.println("input error");
+//                }
+//            } else {
+//                System.out.println("please input one param");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         /*=Callable FutureTask实现线程=========================================*/
 //        CallableThread callableThread = new CallableThread();
@@ -199,7 +282,7 @@ public class Main {
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-
+//
 //        try {
 //            PipedInputStream input = new PipedInputStream();
 //            PipedOutputStream out = new PipedOutputStream();
