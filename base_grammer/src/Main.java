@@ -59,32 +59,37 @@ public class Main {
 //    }
 
     public static void main(String[] args) throws Exception {
+        /*=Integer包装类=====================================================*/
+        Integer i5 = 127;//java在编译的时候,被翻译成-> Integer i5 = Integer.valueOf(127);
+        int i1 = 127;
+        System.out.println("isSameObject? : " + ((i1 == i5)?"true":"false"));
+
         /*=Class类的使用=====================================================*/
-        // 获取类ClassTest的Class对象的三种方法
-        Class c1 = Class.forName("useClass.ClassTest"); //forName()方法自带类加载
-        ClassTest classTest0 = new ClassTest();
-        Class c2 = classTest0.getClass();
-        Class c3 = ClassTest.class;
-
-        //上面三种方法获得的是同一个Class对象实例
-        System.out.println("三种方法获取的实例是否为同一个：" + ((c1==c2)&&(c2==c3)?"true":"false"));
-
-        System.out.println("ClassTest的基本信息：");
-        System.out.print(c1.toString() + "\n"
-            + c1.toGenericString() + "\n"
-            + c1.getName() + "\n"
-            + c1.getClassLoader().toString() + "\n"     // 在Java WEB项目编程时，往往通过classLoader获取Jar包的物理路径
-        );
-
-        //初始化
-        ClassTest classTest = (ClassTest) c1.newInstance(); //newInstance()无参，只能调用类的无参构造函数
-        classTest.setUsername("Lee");
-        classTest.setId("0315");
-        System.out.println(classTest.toString() + "\n"
-            + "isInstance: " + (c1.isInstance(classTest)?"true":"false") + "\n"
-            + "isInterface: " + (c1.isInterface()?"ture":"false") + "\n"
-            + "isPrimitive: " + (c1.isPrimitive()?"ture":"false") + "\n"
-        );
+//        // 获取类ClassTest的Class对象的三种方法
+//        Class c1 = Class.forName("useClass.ClassTest"); //forName()方法自带类加载
+//        ClassTest classTest0 = new ClassTest();
+//        Class c2 = classTest0.getClass();
+//        Class c3 = ClassTest.class;
+//
+//        //上面三种方法获得的是同一个Class对象实例
+//        System.out.println("三种方法获取的实例是否为同一个：" + ((c1==c2)&&(c2==c3)?"true":"false"));
+//
+//        System.out.println("ClassTest的基本信息：");
+//        System.out.print(c1.toString() + "\n"
+//            + c1.toGenericString() + "\n"
+//            + c1.getName() + "\n"
+//            + c1.getClassLoader().toString() + "\n"     // 在Java WEB项目编程时，往往通过classLoader获取Jar包的物理路径
+//        );
+//
+//        //初始化
+//        ClassTest classTest = (ClassTest) c1.newInstance(); //newInstance()无参，只能调用类的无参构造函数
+//        classTest.setUsername("Lee");
+//        classTest.setId("0315");
+//        System.out.println(classTest.toString() + "\n"
+//            + "isInstance: " + (c1.isInstance(classTest)?"true":"false") + "\n"
+//            + "isInterface: " + (c1.isInterface()?"ture":"false") + "\n"
+//            + "isPrimitive: " + (c1.isPrimitive()?"ture":"false") + "\n"
+//        );
 
 
         /*=useAnotation 使用自定义的注解======================================*/
