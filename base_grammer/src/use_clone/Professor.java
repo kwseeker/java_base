@@ -1,9 +1,11 @@
 package use_clone;
 
+import java.io.Serializable;
+
 /**
  * 此对象不支持Clone, 在Student中对Professor类型的成员只能进行浅拷贝（只能获取同一成员对象的引用）
  */
-public class Professor {
+public class Professor implements Serializable {
 
     private String name;
     private int age;

@@ -1,9 +1,11 @@
 package use_clone;
 
+import java.io.Serializable;
+
 /**
  * 这个类提供clone()方法，用于在Student类对此InstructorDeepClone成员变量进行深拷贝（获取不同的成员对象）。
  */
-public class InstructorDeepClone implements Cloneable {
+public class InstructorDeepClone implements Cloneable, Serializable {
 
     private String name;
     private int age;

@@ -1,5 +1,7 @@
 package use_clone;
 
+import java.io.*;
+
 /**
  * 对象克隆
  *
@@ -24,6 +26,28 @@ package use_clone;
  *          (但这样也仅仅只是两层的深度拷贝，深入成员变量类的成员同样是浅拷贝，除非层层深入，对每一层每一个成员变量都执行clone())。
  */
 public class CloneMain {
+
+    public static Object useSerializabledeepClone(Object src){
+        Object o = null;
+        try{
+            if (src != null){
+                // 序列化
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(baos);
+                oos.writeObject(src);
+                oos.close();
+                // 反序列化
+                ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+                ObjectInputStream ois = new ObjectInputStream(bais);
+                o = ois.readObject();
+                ois.close();
+            }
+        } catch (IOException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return o;
+    }
+
     public static void main(String[] args) {
 
         Professor professor = new Professor();
@@ -68,6 +92,18 @@ public class CloneMain {
             i2.setAge(27);
             s2.setInstructor(i2);
 
+            System.out.println("s1和s2的name成员是同一个对象么：" + (s1.getName() == s2.getName()));    //TODO： 为什么String 总是不同的对象？JVM怎么处理的？
+            s2.setName("王五五");  //修改s2 String类型成员变量，s1并没有像professor成员变量一样改变
+            s2.setAge(20);
+            System.out.println("s1和s2的name成员现在还是同一个对象么：" + (s1.getName() == s2.getName())); // String类型，同值则同对象；不同值则不同对象。
+            /**
+             * http://www.cnblogs.com/xiaoxuetu/archive/2013/06/02/3113427.html
+             * String 对象是不可变的，所以可以共享。String对象和基本类型的数据都是存储在常量池的，
+             * 它属于方法区的一部分的，作用之一就是存放编译期间生产的各种字面量和符号引用。
+             * 方法区的垃圾回收行为是比较少出现的，该区中的对象基本不会被回收，可以理解成是永久存在的。
+             * 因此，缓存在字符串缓冲区中的字符串对象基本是不被回收的，而jvm也正是通过复用这些对象从而达到共享作用。
+             */
+
             System.out.println("复制后的：s2 = " + s2);
             System.out.println("复制后的：s1 = " + s1);
         } catch (CloneNotSupportedException e) {
@@ -87,5 +123,19 @@ public class CloneMain {
         复制后的：s2 = Student [name=王五, age=19, professor=Professor [name=张二, age=47], instructor=Professor [name=李二, age=27]]
         复制后的：s1 = Student [name=王五, age=19, professor=Professor [name=张二, age=47], instructor=Professor [name=李四, age=26]]
         */
+
+        //使用序列化进行深拷贝：
+        Student s4 = (Student) useSerializabledeepClone(s1);
+        s4.setName("王六六");
+        s4.setAge(18);
+        Professor professor1 = s4.getProfessor();
+        professor1.setName("张二二");
+        professor1 .setAge(48);
+        InstructorDeepClone instructor1 = s4.getInstructor();
+        instructor1.setName("李四四");
+        instructor1.setAge(28);
+
+        System.out.println("复制后的：s4 = " + s4);
+        System.out.println("复制后的：s1 = " + s1);
     }
 }

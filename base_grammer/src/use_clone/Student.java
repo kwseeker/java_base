@@ -1,10 +1,12 @@
 package use_clone;
 
+import java.io.Serializable;
+
 /**
  * 对Professor成员进行浅拷贝（拷贝的是成员变量地址）
  * 对InstructorDeepClone成员进行深拷贝（通过成员变量地址拷贝里面的内容）
  */
-public class Student implements Cloneable {
+public class Student implements Cloneable, Serializable {
 
     private String name;
     private int age;
