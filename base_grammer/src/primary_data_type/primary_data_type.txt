@@ -1,0 +1,38 @@
+基本数据类型
+
+1 基本数据类型有哪些
+    boolean
+    byte
+    char
+    short
+    int
+    float
+    long
+    double
+
+    Java中没有 unsigned int 这种变型。
+
+2 基本数据类型内存
+    2.1 存储位置
+        栈的基本类型变量区
+
+    2.2 占用内存大小与取值范围
+        boolean: 1字节    true or false
+        byte：   1字节     -128～127
+        char：   2字节     0～65535
+        short：  2字节     -32768～32767
+        int：    4字节     -2147483648～2147483647
+        float：  4字节     -3.4E38～3.4E38
+        long：   8字节     -9223372036854775808 ~ 9223372036854775807
+        double： 8字节      -1.7E308～1.7E308
+
+        只有char是无符号的。
+
+    2.3 精度问题
+        1 : 这种整数类型默认是int, 对于short d=1 这种则是short, 对于long f = 233435这种则是long；
+        3.14： 默认为double；
+        1L 或 1l: long型；
+        3.14F 或 3.14f: float型；
+
+3 隐式类型转换与强制类型转换
+
