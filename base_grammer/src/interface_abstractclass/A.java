@@ -15,4 +15,9 @@ public class A extends AbstractClassTest implements InterfaceTest {
     public void funcI1() {
         System.out.println("执行实现的接口的方法");
     }
+
+    @Override
+    public void funcI2() {
+        System.out.println("执行实现的抽象类继承接口的方法");
+    }
 }

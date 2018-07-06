@@ -1,6 +1,6 @@
 package interface_abstractclass;
 
-public abstract class AbstractClassTest {
+public abstract class AbstractClassTest extends B implements InterfaceTest2 {
 
     //属性
     int a = 10;
@@ -22,4 +22,6 @@ public abstract class AbstractClassTest {
     static void func2() {
         System.out.println("执行抽象类的静态方法");
     }
+
+
 }

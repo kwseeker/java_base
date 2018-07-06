@@ -8,5 +8,8 @@ public class MainTest {
         A.func2();
         System.out.println("A继承接口的属性值 b=" + a.b);
         a.funcI1();
+
+        a.funcB();
+        a.funcI2();
     }
 }
