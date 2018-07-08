@@ -1,0 +1,12 @@
+<sources>
+    <source>
+        <sourceType>CLASS</sourceType>
+        <path>target/classes/top/kwseeker/classFactory/</path>
+        <name>TestApp</name>
+    </source>
+    <source>
+        <sourceType>XML</sourceType>
+        <path>src/main/resources/</path>
+        <name>hotSwap</name>
+    </source>
+</sources>
