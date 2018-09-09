@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>用户列表</comment>
+<entry key="G1">Gale  </entry>
+<entry key="D1">David</entry>
+<entry key="A1">Arvin</entry>
+<entry key="I1">张三</entry>
+<entry key="F1">Fitch </entry>
+<entry key="C1">Cindy</entry>
+<entry key="H1">Halley</entry>
+<entry key="E1">李四</entry>
+<entry key="B1">Bob</entry>
+</properties>
