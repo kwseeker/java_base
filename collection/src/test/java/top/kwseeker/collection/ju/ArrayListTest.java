@@ -1,4 +1,4 @@
-package top.kwseeker.collection;
+package top.kwseeker.collection.ju;
 
 import org.junit.Test;
 

@@ -1,8 +1,7 @@
-package top.kwseeker.collection;
+package top.kwseeker.collection.algorithm;
 
 import org.junit.Test;
-
-import java.util.Arrays;
+import top.kwseeker.collection.algorithm.MyTimeSort;
 
 /**
  * 实现类似与ForkJoin的分而治之
