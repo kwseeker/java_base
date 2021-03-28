@@ -36,13 +36,26 @@ Lambda 表达式中引用的局部变量必须是 final 或既成事实上的 fi
 ```java
 // 接受一个对象返回一个boolean值
 Predicate<T> T boolean 						示例：这张唱片已经发行了吗
-Consumer<T> T void 								输出一个值
-Function<T,R> T R 									获得 Artist 对象的名字
-Supplier<T> None T 								工厂方法
-UnaryOperator<T> T T 						 逻辑非 (!)
+Consumer<T> T void 							输出一个值
+Function<T,R> T R 							获得 Artist 对象的名字
+Supplier<T> None T 							工厂方法
+UnaryOperator<T> T T 						逻辑非 (!)
 // 接受两个参数，返回一个值（参数和值类型相同）    
-BinaryOperator<T> (T, T) T 				 求两个数的乘积 (*)
+BinaryOperator<T> (T, T) T 				 	求两个数的乘积 (*)
 ```
+
++ Supplier
+
+  ```java
+  @FunctionalInterface
+  public interface Supplier<T> {
+      T get();
+  }
+  ```
+
+  
+
+
 
 #### 类型推断
 
@@ -68,11 +81,94 @@ static final class SuppliedThreadLocal<T> extends ThreadLocal<T> {
 }
 ```
 
+## 流
 
+容器`for`语法糖是外部迭代（本质是借助迭代器实现），`stream`是内部迭代(？)。
 
+### 常用操作
 
++ **`collect()`**
++ **`map()`** 
++ **`filter()`**
 
++ **`flatMap()`**
 
+  将多个流合并为一个流
+
++ **`max()`**
++ **`min()`**
+
++ **`reduce()`**
+
+  从一组值中生成一个值，count() max() min() 都是通过reduce()实现的。
+
+  ```java
+  /**
+   * identity 是基准值（首次计算作为计算结果代入），accumulator累加器（将之前的计算结果和新元素进行计算处理的算法）
+   * 等同于
+   * T result = identity;
+   * for (T element : this stream)
+   *     result = accumulator.apply(result, element)
+   * return result;
+  */   
+  T reduce(T identity, BinaryOperator<T> accumulator);
+  // reduce实现累加器
+  // 0 作为累加器的初始值，acc保存当前累加器累加结果，element是当前元素
+  int count = Stream.of(1, 2, 3).reduce(0, (acc, element) -> acc + element);
+  ```
+
+### 实现原理
+
+很多框架源码越来越多地使用起了函数式接口，分析一段完整的实现将对阅读框架源码很有帮助。
+
+Lambda表达式被`JVM`用来**生成了一个内部类**，然后这个内部类实现了函数式接口。
+
+```java
+List<Integer> filteredList =  list.stream().filter(val -> val > 2).collect(Collectors.toList());
+// 1 stream() 创建一个流 
+// 第一个参数是用于遍历和分组的并行迭代遍历器，第二个参数是是否并行执行
+// 关于spliterator，源码说使用集合的iterator()接口获取元素。Java1.8的集合类都默认实现了这个类，对于ArrayList是ArrayListSpliterator
+StreamSupport.stream(spliterator(), false);	//Collection.java
+// 1.1 第一个参数：当前集合对象（list）,第二个参数：特征值
+// 它的作用就是为了拆分数据用于遍历，细节不说了随便找个文件看看：https://blog.csdn.net/lh513828570/article/details/56673804
+Spliterators.spliterator(this, 0);
+// 流就是一个管道
+// 之前代码中用到方法（如：filter()、findFirst()、reduce()、collect()、sorted()）是在ReferencePipeline定义的
+new ReferencePipeline.Head<>(spliterator,
+                             StreamOpFlag.fromCharacteristics(spliterator),
+                             parallel);
+// 源码注释说Head是ReferencePipeline的源阶段（第一个阶段，流的处理分为多个阶段）
+// Head也是ReferencePipeline类型，说明流这个过程就是一串ReferencePipeline调用
+// 链表关系在AbstractPipeline的nextStage中保持，个人推断filter()方法本质就是建新节点将引用赋值给nextStage
+static class Head<E_IN, E_OUT> extends ReferencePipeline<E_IN, E_OUT> {}
+// 2 filter()
+// 经过调试发现filter()返回的新的Stream对象引用确实赋值给了nextStage
+return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
+                                     StreamOpFlag.NOT_SIZED) {
+    // 关于这个方法是做什么的执行流程里面分析
+    @Override
+    Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
+        return new Sink.ChainedReference<P_OUT, P_OUT>(sink) {
+            @Override
+            public void begin(long size) {
+                downstream.begin(-1);
+            }
+
+            @Override
+            public void accept(P_OUT u) {
+                // lambda 表达式执行
+                if (predicate.test(u))
+                    downstream.accept(u);
+            }
+        };
+    }
+};
+// AbstractPipeline 构造函数中实现nextStage赋值
+previousStage.nextStage = this;
+// 3 collect()
+// 真正执行流式处理
+
+```
 
 
 

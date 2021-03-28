@@ -18,23 +18,33 @@ public class SupplierDemo<T> {
         return null;
     }
 
-    //public static S SupplierDemo<S> withInitial(Supplier<? extends S> supplier) {
-    //    return new SupplierDemo.SupplierFactory<>(supplier);
-    //}
-    public static T SupplierDemo<T> withInitial(Supplier<? extends T> supplier) {
-        return new SupplierDemo.SupplierFactory<>(supplier);
+    /**
+     * 创建带有默认值的实例
+     * 这个S是static泛型方法的写法
+     */
+    public static <S> SupplierDemo<S> withInitial(Supplier<? extends S> supplier) {
+        // 获取supplier泛型类型
+        //Type t = supplier.getClass().getGenericSuperclass();
+        //if (t instanceof ParameterizedType) {
+        //    System.out.println(t);
+        //    for (Type type : ((ParameterizedType) t).getActualTypeArguments()) {
+        //        System.out.println(type);
+        //    }
+        //}
+        return new SupplierDemoFactory<>(supplier);
     }
 
-    //工厂类（supplier是工厂实例化方法）
-    static final class SupplierFactory<T> extends SupplierDemo<T> {
+    //工厂类（创建带有默认值的实例，supplier是提供默认值的函数）
+    static final class SupplierDemoFactory<T> extends SupplierDemo<T> {
         private final Supplier<? extends T> supplier;
 
-        SupplierFactory(Supplier<? extends T> var1) {
-            this.supplier = (Supplier)Objects.requireNonNull(var1);
+        SupplierDemoFactory(Supplier<? extends T> supplier) {
+            this.supplier = Objects.requireNonNull(supplier);
         }
 
+        @Override
         protected T initialValue() {
-            return this.supplier.get();
+            return supplier.get();
         }
     }
 }
