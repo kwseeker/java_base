@@ -35,22 +35,54 @@ Lambda 表达式中引用的局部变量必须是 final 或既成事实上的 fi
 
 ```java
 // 接受一个对象返回一个boolean值
-Predicate<T> T boolean 						示例：这张唱片已经发行了吗
-Consumer<T> T void 							输出一个值
-Function<T,R> T R 							获得 Artist 对象的名字
-Supplier<T> None T 							工厂方法
-UnaryOperator<T> T T 						逻辑非 (!)
+Predicate<T> T boolean							示例：这张唱片已经发行了吗
+// 一个入参，无返回值
+Consumer<T> T void								示例：输入一个值
+// 两个入参，无返回值
+BiConsumer<T, U> void   					示例：Collectors.to
+// 输入T返回R
+Function<T,R> T R									示例：获得 Artist 对象的名字
+BiFunction<T, U, R>  (T, U) R
 // 接受两个参数，返回一个值（参数和值类型相同）    
-BinaryOperator<T> (T, T) T 				 	求两个数的乘积 (*)
+BinaryOperator<T> (T, T) T 				 	示例：合并两个List容器实例
+// 无入参，返回一个对象
+Supplier<T> None T								示例: Collectors.toList中 (Supplier<List<T>> ArrayList::new)
+// 输入T返回T
+UnaryOperator<T> T T						示例：逻辑非 (!)
 ```
 
-+ Supplier
+> `Bi`和`Binary`都是“双”的意思，
+
++ `Supplier`
 
   ```java
   @FunctionalInterface
   public interface Supplier<T> {
       T get();
   }
+  ```
+
++ `BiComsumer`
+
+  ```java
+  void accept(T t, U u);
+  ```
+
+  示例：
+
+  ```java
+  List<Integer> intList = new ArrayList<>();
+  // biConsumer1其实是生成的匿名类，实现了accept()方法
+  BiConsumer<List<Integer>, Integer> biConsumer1 = List::add;
+  //BiConsumer<List<Integer>, Integer> biConsumer1 = (list, item) -> list.add(item);
+  BiConsumer<List<Integer>, Integer> biConsumer2 = new BiConsumer<List<Integer>, Integer>() {
+      @Override
+      public void accept(List<Integer> integers, Integer integer) {
+          integers.add(integer);
+      }
+  };
+  biConsumer1.accept(intList, 1);
+  biConsumer2.accept(intList, 2);
   ```
 
   
@@ -167,8 +199,86 @@ return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
 previousStage.nextStage = this;
 // 3 collect()
 // 真正执行流式处理
+// 3.1 创建Collector容器
+Collectors.toList()
+// 3.2 创建ReduceOp操作，先跳过
+   
+// 3.3 collect() 真正开始执行的位置，此例子中this是filter()返回的ReferencePipeline节点，后者先查看下头节点(stream返回的ReferencePipeline节点)是否有并行迭代遍历器Spliterator。然后把头节点的sourceSpliterator引用清空？
+terminalOp.evaluateSequential(this, sourceSpliterator(terminalOp.getOpFlags()));
+// helper 是stream最后一个ReferencePipeline节点
+// 
+helper.wrapAndCopyInto(makeSink(), spliterator).get();
+// makeSink()
+
+// opWrapSink()
+copyInto(wrapSink(Objects.requireNonNull(sink)), spliterator);
+
+// 
+```
+
+`Collector`接口: 将流元素保存到容器中，提供了3个函数式接口参数：
 
 ```
+Supplier:						保存到容器首先要有一个容器，实例化容器实例
+BiConsumer 				  有容器后要考虑怎么把流元素放到容器实例中, 指定容器存储元素的方法
+BinaryOperator　     容器合并操作，估计是在并行处理的时候才会用到
+```
+
+`TerminalOp`接口
+
+定义流处理操作，将一个stream作为输入，生成一个结果或副产品。
+
+```java
+makeSink()						  //
+inputShape()					//获取StreamShape
+evaluateSequential() 	//串行计算
+evaluateParallel()			//并行计算
+```
+
+
+
+```java
+// 实现类
+FindOp in FindOps
+ForEachOp in ForEachOps
+MatchOp in MatchOps
+OfDouble in ForEachOp in ForEachOps
+OfInt in ForEachOp in ForEachOps
+OfLong in ForEachOp in ForEachOps
+OfRef in ForEachOp in ForEachOps
+
+ReduceOp in ReduceOps
+```
+
+`Sink`
+
+
+
+```
+begin
+end
+cancellationRequested
+accept
+accept
+accept
+accept
+andThen
+OfInt
+OfLong
+OfDouble
+ChainedReference
+ChainedInt
+ChainedLong
+ChainedDouble
+```
+
+
+
+`StreamShape`
+
+定义流及内部数据的类型？对象类型 or int or long or double。
+
+`StreamOpFlag`
 
 
 
